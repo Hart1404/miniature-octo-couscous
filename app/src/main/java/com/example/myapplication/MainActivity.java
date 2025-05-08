@@ -9,6 +9,9 @@ import com.example.myapplication.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -21,6 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Устанавливаем текущую дату в нужный TextView
+        TextView dateText = findViewById(R.id.dateText);
+        if (dateText != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("d MMM", new Locale("ru"));
+            String today = sdf.format(new Date());
+            dateText.setText("Сегодня, " + today);
+        }
 
         // Используем findViewById для доступа к kcalLeft
         TextView kcalLeft = findViewById(R.id.kcalLeft);
