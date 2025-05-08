@@ -1,9 +1,12 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.widget.AppCompatImageButton
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,6 +14,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavView)
+
+        // Находим кнопку сохранения и устанавливаем обработчик
+        findViewById<AppCompatImageButton>(R.id.saveProfileButton)?.setOnClickListener {
+            saveProfileData()
+        }
 
         // Установка начального фрагмента
         if (savedInstanceState == null) {
@@ -40,9 +48,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadFragment(fragment: Fragment) {
+    fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .commit()
+    }
+
+    fun saveProfileData() {
+        // Переходим в раздел профиля
+        loadFragment(ProfileFragment())
+        findViewById<BottomNavigationView>(R.id.bottomNavView)?.selectedItemId = R.id.navigation_profile
     }
 } 

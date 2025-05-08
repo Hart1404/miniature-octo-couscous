@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import android.view.animation.AccelerateDecelerateInterpolator
 
 class HomeFragment : Fragment() {
+    private var lastCalories = 0
+    private var lastProtein = 0
+    private var lastFat = 0
+    private var lastCarbs = 0
+    private var lastBreakfastNorm = 0
+    private var lastLunchNorm = 0
+    private var lastDinnerNorm = 0
+    private var lastSnacksNorm = 0
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -19,6 +30,41 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        updateValuesWithAnimation(view, animate = false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        view?.let { updateValuesWithAnimation(it, animate = true) }
+    }
+
+    private fun animateTextViewChange(textView: TextView, oldValue: Int, newValue: Int, suffix: String = "") {
+        if (oldValue == newValue) {
+            textView.text = "$newValue$suffix"
+            return
+        }
+        val animator = ValueAnimator.ofInt(oldValue, newValue)
+        animator.duration = 1000
+        animator.interpolator = AccelerateDecelerateInterpolator()
+        animator.addUpdateListener { animation ->
+            textView.text = "${animation.animatedValue}$suffix"
+            val scale = 1f + 0.15f * kotlin.math.abs((animation.animatedFraction - 0.5f) * 2)
+            textView.scaleX = scale
+            textView.scaleY = scale
+        }
+        animator.addListener(object : android.animation.Animator.AnimatorListener {
+            override fun onAnimationStart(p0: android.animation.Animator) {}
+            override fun onAnimationEnd(p0: android.animation.Animator) {
+                textView.scaleX = 1f
+                textView.scaleY = 1f
+            }
+            override fun onAnimationCancel(p0: android.animation.Animator) {}
+            override fun onAnimationRepeat(p0: android.animation.Animator) {}
+        })
+        animator.start()
+    }
+
+    private fun updateValuesWithAnimation(view: View, animate: Boolean) {
         val prefs = requireContext().getSharedPreferences("profile_prefs", Context.MODE_PRIVATE)
         val weight = prefs.getString("weight", "")?.toDoubleOrNull() ?: 0.0
         val height = prefs.getString("height", "")?.toDoubleOrNull() ?: 0.0
@@ -67,17 +113,6 @@ class HomeFragment : Fragment() {
         val currentProtein = prefs.getInt("current_protein", 0)
         val currentFat = prefs.getInt("current_fat", 0)
 
-        // Выводим значения на экран
-        view.findViewById<TextView>(R.id.kcalLeft)?.text = calories.toString()
-        
-        // Обновляем отображение макроэлементов
-        view.findViewById<TextView>(R.id.carbs)?.text = currentCarbs.toString()
-        view.findViewById<TextView>(R.id.carbsNorm)?.text = "/ $carbs г"
-        view.findViewById<TextView>(R.id.protein)?.text = currentProtein.toString()
-        view.findViewById<TextView>(R.id.proteinNorm)?.text = "/ $protein г"
-        view.findViewById<TextView>(R.id.fat)?.text = currentFat.toString()
-        view.findViewById<TextView>(R.id.fatNorm)?.text = "/ $fat г"
-
         // Распределение калорий по приёмам пищи
         val (breakfastPercent, lunchPercent, dinnerPercent, snacksPercent) = when (goal) {
             "Сброс веса" -> listOf(0.30, 0.35, 0.20, 0.15)
@@ -95,10 +130,49 @@ class HomeFragment : Fragment() {
         val currentDinner = prefs.getInt("current_dinner", 0)
         val currentSnacks = prefs.getInt("current_snacks", 0)
 
-        // Обновляем отображение калорий по приёмам пищи
-        view.findViewById<TextView>(R.id.breakfastKcal)?.text = "$currentBreakfast / $breakfastNorm ккал"
-        view.findViewById<TextView>(R.id.lunchKcal)?.text = "$currentLunch / $lunchNorm ккал"
-        view.findViewById<TextView>(R.id.dinnerKcal)?.text = "$currentDinner / $dinnerNorm ккал"
-        view.findViewById<TextView>(R.id.snacksKcal)?.text = "$currentSnacks / $snacksNorm ккал"
+        // Анимация для калорий
+        val kcalLeft = view.findViewById<TextView>(R.id.kcalLeft)
+        if (animate) animateTextViewChange(kcalLeft, lastCalories, calories) else kcalLeft?.text = calories.toString()
+        lastCalories = calories
+
+        // Анимация для макроэлементов
+        val carbsView = view.findViewById<TextView>(R.id.carbs)
+        if (animate) animateTextViewChange(carbsView, lastCarbs, currentCarbs) else carbsView?.text = currentCarbs.toString()
+        lastCarbs = currentCarbs
+        val carbsNormView = view.findViewById<TextView>(R.id.carbsNorm)
+        carbsNormView?.text = "/ $carbs г"
+
+        val proteinView = view.findViewById<TextView>(R.id.protein)
+        if (animate) animateTextViewChange(proteinView, lastProtein, currentProtein) else proteinView?.text = currentProtein.toString()
+        lastProtein = currentProtein
+        val proteinNormView = view.findViewById<TextView>(R.id.proteinNorm)
+        proteinNormView?.text = "/ $protein г"
+
+        val fatView = view.findViewById<TextView>(R.id.fat)
+        if (animate) animateTextViewChange(fatView, lastFat, currentFat) else fatView?.text = currentFat.toString()
+        lastFat = currentFat
+        val fatNormView = view.findViewById<TextView>(R.id.fatNorm)
+        fatNormView?.text = "/ $fat г"
+
+        // Анимация для калорий по приёмам пищи
+        val breakfastKcalView = view.findViewById<TextView>(R.id.breakfastKcal)
+        if (animate) animateTextViewChange(breakfastKcalView, lastBreakfastNorm, currentBreakfast, " / $breakfastNorm ккал")
+        else breakfastKcalView?.text = "$currentBreakfast / $breakfastNorm ккал"
+        lastBreakfastNorm = currentBreakfast
+
+        val lunchKcalView = view.findViewById<TextView>(R.id.lunchKcal)
+        if (animate) animateTextViewChange(lunchKcalView, lastLunchNorm, currentLunch, " / $lunchNorm ккал")
+        else lunchKcalView?.text = "$currentLunch / $lunchNorm ккал"
+        lastLunchNorm = currentLunch
+
+        val dinnerKcalView = view.findViewById<TextView>(R.id.dinnerKcal)
+        if (animate) animateTextViewChange(dinnerKcalView, lastDinnerNorm, currentDinner, " / $dinnerNorm ккал")
+        else dinnerKcalView?.text = "$currentDinner / $dinnerNorm ккал"
+        lastDinnerNorm = currentDinner
+
+        val snacksKcalView = view.findViewById<TextView>(R.id.snacksKcal)
+        if (animate) animateTextViewChange(snacksKcalView, lastSnacksNorm, currentSnacks, " / $snacksNorm ккал")
+        else snacksKcalView?.text = "$currentSnacks / $snacksNorm ккал"
+        lastSnacksNorm = currentSnacks
     }
 } 

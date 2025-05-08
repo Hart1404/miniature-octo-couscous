@@ -22,6 +22,8 @@ class ProfileFragment : Fragment() {
     private var lifestyle: String = ""
     private var goal: String = ""
 
+    private var hasUnsavedChanges = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,13 +58,22 @@ class ProfileFragment : Fragment() {
         val sharedPrefs = requireContext().getSharedPreferences("profile_prefs", Context.MODE_PRIVATE)
 
         // Загружаем сохранённые значения
-        userNameEdit.setText(sharedPrefs.getString("userName", ""))
-        weightEdit.setText(sharedPrefs.getString("weight", ""))
-        heightEdit.setText(sharedPrefs.getString("height", ""))
-        ageEdit.setText(sharedPrefs.getString("age", ""))
-        genderSpinner.setText(sharedPrefs.getString("gender", ""), false)
-        lifestyleSpinner.setText(sharedPrefs.getString("lifestyle", ""), false)
-        goalSpinner.setText(sharedPrefs.getString("goal", ""), false)
+        userName = sharedPrefs.getString("userName", "") ?: ""
+        weight = sharedPrefs.getString("weight", "") ?: ""
+        height = sharedPrefs.getString("height", "") ?: ""
+        age = sharedPrefs.getString("age", "") ?: ""
+        gender = sharedPrefs.getString("gender", "") ?: ""
+        lifestyle = sharedPrefs.getString("lifestyle", "") ?: ""
+        goal = sharedPrefs.getString("goal", "") ?: ""
+
+        // Устанавливаем значения в поля
+        userNameEdit.setText(userName)
+        weightEdit.setText(weight)
+        heightEdit.setText(height)
+        ageEdit.setText(age)
+        genderSpinner.setText(gender, false)
+        lifestyleSpinner.setText(lifestyle, false)
+        goalSpinner.setText(goal, false)
 
         // Отключаем появление клавиатуры при нажатии на выпадающие списки
         fun disableKeyboard(autoComplete: MaterialAutoCompleteTextView) {
@@ -80,45 +91,130 @@ class ProfileFragment : Fragment() {
         disableKeyboard(lifestyleSpinner)
         disableKeyboard(goalSpinner)
 
-        // Галочка для сохранения
-        val saveButton = requireActivity().findViewById<AppCompatImageButton>(R.id.saveProfileButton)
-        fun showSaveButton() { saveButton.visibility = View.VISIBLE }
-        fun hideSaveButton() { saveButton.visibility = View.GONE }
-
         // Показываем галочку при изменении любого поля
-        val watcher = object : TextWatcher {
+        val userNameWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { showSaveButton() }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                showSaveButton()
+                hasUnsavedChanges = true
+            }
             override fun afterTextChanged(s: Editable?) {}
         }
-        userNameEdit.addTextChangedListener(watcher)
-        weightEdit.addTextChangedListener(watcher)
-        heightEdit.addTextChangedListener(watcher)
-        ageEdit.addTextChangedListener(watcher)
-        genderSpinner.setOnItemClickListener { _, _, _, _ -> showSaveButton() }
-        lifestyleSpinner.setOnItemClickListener { _, _, _, _ -> showSaveButton() }
-        goalSpinner.setOnItemClickListener { _, _, _, _ -> showSaveButton() }
+
+        val weightWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                showSaveButton()
+                hasUnsavedChanges = true
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        }
+
+        val heightWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                showSaveButton()
+                hasUnsavedChanges = true
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        }
+
+        val ageWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                showSaveButton()
+                hasUnsavedChanges = true
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        }
+
+        userNameEdit.addTextChangedListener(userNameWatcher)
+        weightEdit.addTextChangedListener(weightWatcher)
+        heightEdit.addTextChangedListener(heightWatcher)
+        ageEdit.addTextChangedListener(ageWatcher)
+
+        genderSpinner.setOnItemClickListener { _, _, _, _ -> 
+            showSaveButton()
+            hasUnsavedChanges = true
+        }
+        lifestyleSpinner.setOnItemClickListener { _, _, _, _ -> 
+            showSaveButton()
+            hasUnsavedChanges = true
+        }
+        goalSpinner.setOnItemClickListener { _, _, _, _ -> 
+            showSaveButton()
+            hasUnsavedChanges = true
+        }
 
         // Сохраняем данные при нажатии на галочку
-        saveButton.setOnClickListener {
-            userName = userNameEdit.text.toString()
-            weight = weightEdit.text.toString()
-            height = heightEdit.text.toString()
-            age = ageEdit.text.toString()
-            gender = genderSpinner.text.toString()
-            lifestyle = lifestyleSpinner.text.toString()
-            goal = goalSpinner.text.toString()
-            // Сохраняем в SharedPreferences
-            sharedPrefs.edit()
-                .putString("userName", userName)
-                .putString("weight", weight)
-                .putString("height", height)
-                .putString("age", age)
-                .putString("gender", gender)
-                .putString("lifestyle", lifestyle)
-                .putString("goal", goal)
-                .apply()
-            hideSaveButton()
+        activity?.findViewById<AppCompatImageButton>(R.id.saveProfileButton)?.setOnClickListener {
+            saveProfile()
         }
+    }
+
+    private fun showSaveButton() {
+        try {
+            activity?.let { activity ->
+                activity.findViewById<AppCompatImageButton>(R.id.saveProfileButton)?.let { button ->
+                    button.visibility = View.VISIBLE
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun hideSaveButton() {
+        try {
+            activity?.let { activity ->
+                activity.findViewById<AppCompatImageButton>(R.id.saveProfileButton)?.let { button ->
+                    button.visibility = View.GONE
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun saveProfile() {
+        try {
+            view?.let { v ->
+                // Получаем текущие значения из полей
+                val userName = v.findViewById<EditText>(R.id.userNameEdit)?.text.toString()
+                val weight = v.findViewById<EditText>(R.id.weightEdit)?.text.toString()
+                val height = v.findViewById<EditText>(R.id.heightEdit)?.text.toString()
+                val age = v.findViewById<EditText>(R.id.ageEdit)?.text.toString()
+                val gender = v.findViewById<MaterialAutoCompleteTextView>(R.id.genderSpinner)?.text.toString()
+                val lifestyle = v.findViewById<MaterialAutoCompleteTextView>(R.id.lifestyleSpinner)?.text.toString()
+                val goal = v.findViewById<MaterialAutoCompleteTextView>(R.id.goalSpinner)?.text.toString()
+
+                // Сохраняем в SharedPreferences
+                val sharedPrefs = requireContext().getSharedPreferences("profile_prefs", Context.MODE_PRIVATE)
+                val editor = sharedPrefs.edit()
+                editor.putString("userName", userName)
+                editor.putString("weight", weight)
+                editor.putString("height", height)
+                editor.putString("age", age)
+                editor.putString("gender", gender)
+                editor.putString("lifestyle", lifestyle)
+                editor.putString("goal", goal)
+                editor.putBoolean("has_unsaved_changes", false)
+                editor.commit()
+
+                // Скрываем галочку
+                hideSaveButton()
+                hasUnsavedChanges = false
+
+                // Обновляем страницу
+                (activity as? MainActivity)?.loadFragment(ProfileFragment())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        hideSaveButton()
     }
 } 
