@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.example.myapplication.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -16,34 +17,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // Включаем поддержку векторных изображений для старых устройств
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        
-        try {
-            binding = ActivityMainBinding.inflate(getLayoutInflater());
-            setContentView(binding.getRoot());
 
-            // Инициализация FAB
-            if (binding.fab != null) {
-                binding.fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // TODO: Implement add new entry functionality
-                    }
-                });
-            } else {
-                Log.e(TAG, "FAB is null");
-            }
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-            // Проверяем остальные элементы
-            if (binding.caloriesLeft != null) {
-                binding.caloriesLeft.setText("452");
-            }
-            
-        } catch (Exception e) {
-            Log.e(TAG, "Error initializing layout", e);
-            setContentView(R.layout.activity_main_fallback);
+        // Используем findViewById для доступа к kcalLeft
+        TextView kcalLeft = findViewById(R.id.kcalLeft);
+        if (kcalLeft != null) {
+            kcalLeft.setText("452");
         }
     }
 
