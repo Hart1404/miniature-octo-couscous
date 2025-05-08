@@ -73,7 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:paddingBottom="56dp">
 
             <!-- Карточка дня -->
             <androidx.cardview.widget.CardView
@@ -645,7 +646,23 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <!-- Заполнитель для нижней панели -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="56dp" />
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_nav_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#FFF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
