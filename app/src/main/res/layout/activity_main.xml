@@ -37,7 +37,7 @@
                 android:id="@+id/appTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ГОВНО"
+                android:text="НАЗВАНИЕ"
                 android:textColor="#222"
                 android:textStyle="bold"
                 android:textSize="20sp"
@@ -398,9 +398,11 @@
                     </LinearLayout>
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/fab_activity"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@android:drawable/ic_input_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:fabSize="mini"
+                        app:maxImageSize="24dp"
+                        android:src="@drawable/ic_add"
                         android:contentDescription="Add activity"
                         app:backgroundTint="#A3D645"
                         android:layout_marginStart="8dp" />
@@ -421,22 +423,28 @@
                     android:orientation="vertical"
                     android:padding="8dp">
                     <!-- Завтрак -->
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
                         android:padding="8dp">
                         <ImageView
+                            android:id="@+id/breakfastIcon"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_gallery" />
+                            android:src="@android:drawable/ic_menu_gallery"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent" />
                         <LinearLayout
+                            android:id="@+id/breakfastTextBlock"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="vertical"
-                            android:layout_marginStart="12dp">
+                            android:layout_marginStart="12dp"
+                            app:layout_constraintStart_toEndOf="@id/breakfastIcon"
+                            app:layout_constraintEnd_toStartOf="@id/breakfastAdd"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -453,30 +461,46 @@
                                 android:textColor="#888"
                                 android:textSize="14sp" />
                         </LinearLayout>
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:src="@android:drawable/ic_input_add"
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/breakfastAdd"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_green_circle"
+                            android:src="@drawable/ic_add"
                             android:contentDescription="Add food"
-                            app:backgroundTint="#A3D645" />
-                    </LinearLayout>
+                            android:scaleType="center"
+                            android:padding="0dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginEnd="16dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                     <!-- Обед -->
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
                         android:padding="8dp">
                         <ImageView
+                            android:id="@+id/lunchIcon"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_gallery" />
+                            android:src="@android:drawable/ic_menu_gallery"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent" />
                         <LinearLayout
+                            android:id="@+id/lunchTextBlock"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="vertical"
-                            android:layout_marginStart="12dp">
+                            android:layout_marginStart="12dp"
+                            app:layout_constraintStart_toEndOf="@id/lunchIcon"
+                            app:layout_constraintEnd_toStartOf="@id/lunchAdd"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -493,30 +517,46 @@
                                 android:textColor="#888"
                                 android:textSize="14sp" />
                         </LinearLayout>
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:src="@android:drawable/ic_input_add"
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/lunchAdd"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_green_circle"
+                            android:src="@drawable/ic_add"
                             android:contentDescription="Add food"
-                            app:backgroundTint="#A3D645" />
-                    </LinearLayout>
+                            android:scaleType="center"
+                            android:padding="0dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginEnd="16dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                     <!-- Ужин -->
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
                         android:padding="8dp">
                         <ImageView
+                            android:id="@+id/dinnerIcon"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_gallery" />
+                            android:src="@android:drawable/ic_menu_gallery"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent" />
                         <LinearLayout
+                            android:id="@+id/dinnerTextBlock"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="vertical"
-                            android:layout_marginStart="12dp">
+                            android:layout_marginStart="12dp"
+                            app:layout_constraintStart_toEndOf="@id/dinnerIcon"
+                            app:layout_constraintEnd_toStartOf="@id/dinnerAdd"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -533,30 +573,46 @@
                                 android:textColor="#888"
                                 android:textSize="14sp" />
                         </LinearLayout>
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:src="@android:drawable/ic_input_add"
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/dinnerAdd"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_green_circle"
+                            android:src="@drawable/ic_add"
                             android:contentDescription="Add food"
-                            app:backgroundTint="#A3D645" />
-                    </LinearLayout>
+                            android:scaleType="center"
+                            android:padding="0dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginEnd="16dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                     <!-- Перекусы -->
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
                         android:padding="8dp">
                         <ImageView
+                            android:id="@+id/snacksIcon"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_gallery" />
+                            android:src="@android:drawable/ic_menu_gallery"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent" />
                         <LinearLayout
+                            android:id="@+id/snacksTextBlock"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="vertical"
-                            android:layout_marginStart="12dp">
+                            android:layout_marginStart="12dp"
+                            app:layout_constraintStart_toEndOf="@id/snacksIcon"
+                            app:layout_constraintEnd_toStartOf="@id/snacksAdd"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -573,13 +629,23 @@
                                 android:textColor="#888"
                                 android:textSize="14sp" />
                         </LinearLayout>
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:src="@android:drawable/ic_input_add"
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/snacksAdd"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_green_circle"
+                            android:src="@drawable/ic_add"
                             android:contentDescription="Add food"
-                            app:backgroundTint="#A3D645" />
-                    </LinearLayout>
+                            android:scaleType="center"
+                            android:padding="0dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginEnd="16dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
