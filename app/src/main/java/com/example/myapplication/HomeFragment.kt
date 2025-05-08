@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.view.animation.AccelerateDecelerateInterpolator
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HomeFragment : Fragment() {
     private var lastCalories = 0
@@ -31,6 +33,13 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateValuesWithAnimation(view, animate = false)
+
+        // Устанавливаем текущую дату
+        val dateText = view.findViewById<TextView>(R.id.dateText)
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("d MMM", Locale("ru"))
+        val today = dateFormat.format(calendar.time)
+        dateText.text = "Сегодня, $today"
     }
 
     override fun onResume() {
