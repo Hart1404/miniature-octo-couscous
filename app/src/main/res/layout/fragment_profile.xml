@@ -125,19 +125,34 @@
                             android:gravity="center_vertical"
                             android:paddingStart="8dp" />
                     </LinearLayout>
-                    <EditText
-                        android:id="@+id/ageEdit"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:hint="Возраст"
-                        android:inputType="number"
-                        android:textColor="#222"
-                        android:textSize="18sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:background="@android:color/transparent"
-                        android:padding="12dp"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="12dp" />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/ageEdit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Возраст"
+                            android:inputType="number"
+                            android:textColor="#222"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:background="@android:color/transparent"
+                            android:padding="12dp"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="12dp" />
+                        <TextView
+                            android:id="@+id/ageUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="лет"
+                            android:textColor="#888"
+                            android:textSize="16sp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="8dp"/>
+                    </LinearLayout>
                     <!-- Современные выпадающие списки -->
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"

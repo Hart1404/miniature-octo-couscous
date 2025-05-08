@@ -15,6 +15,7 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import android.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import android.graphics.Color
+import android.widget.TextView
 
 class ProfileFragment : Fragment() {
     private var userName: String = ""
@@ -26,6 +27,8 @@ class ProfileFragment : Fragment() {
     private var goal: String = ""
 
     private var hasUnsavedChanges = false
+
+    private lateinit var ageUnit: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +55,7 @@ class ProfileFragment : Fragment() {
         val weightEdit = view.findViewById<EditText>(R.id.weightEdit)
         val heightEdit = view.findViewById<EditText>(R.id.heightEdit)
         val ageEdit = view.findViewById<EditText>(R.id.ageEdit)
+        ageUnit = view.findViewById(R.id.ageUnit)
 
         genderSpinner.setAdapter(genderAdapter)
         lifestyleSpinner.setAdapter(lifestyleAdapter)
@@ -77,6 +81,8 @@ class ProfileFragment : Fragment() {
         genderSpinner.setText(gender, false)
         lifestyleSpinner.setText(lifestyle, false)
         goalSpinner.setText(goal, false)
+        // Обновляем подпись возраста
+        ageUnit.text = getAgeUnit(age.toIntOrNull() ?: 0)
 
         // Отключаем появление клавиатуры при нажатии на выпадающие списки
         fun disableKeyboard(autoComplete: MaterialAutoCompleteTextView) {
@@ -125,6 +131,8 @@ class ProfileFragment : Fragment() {
         val ageWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val value = s.toString().toIntOrNull() ?: 0
+                ageUnit.text = getAgeUnit(value)
                 showSaveButton()
                 hasUnsavedChanges = true
             }
@@ -205,7 +213,46 @@ class ProfileFragment : Fragment() {
                         val positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
                         positive.setBackgroundColor(Color.parseColor("#E53935")) // красный
                         positive.setTextColor(Color.WHITE)
-                        // Скругление и ширина как у карточек
+                        dialog.window?.setBackgroundDrawableResource(R.drawable.bg_dialog_card)
+                    }
+                    dialog.show()
+                    return
+                }
+
+                // Проверка диапазона роста
+                val heightNum = height.toIntOrNull()
+                if (heightNum == null || heightNum < 80 || heightNum > 300) {
+                    val dialog = MaterialAlertDialogBuilder(requireContext())
+                        .setTitle("Некорректный рост")
+                        .setMessage("Введите рост от 80 до 300 см.")
+                        .setPositiveButton("ОК") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .create()
+                    dialog.setOnShowListener {
+                        val positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        positive.setBackgroundColor(Color.parseColor("#E53935")) // красный
+                        positive.setTextColor(Color.WHITE)
+                        dialog.window?.setBackgroundDrawableResource(R.drawable.bg_dialog_card)
+                    }
+                    dialog.show()
+                    return
+                }
+
+                // Проверка диапазона возраста
+                val ageNum = age.toIntOrNull()
+                if (ageNum == null || ageNum < 14 || ageNum > 130) {
+                    val dialog = MaterialAlertDialogBuilder(requireContext())
+                        .setTitle("Некорректный возраст")
+                        .setMessage("Введите возраст от 14 до 130 лет.")
+                        .setPositiveButton("ОК") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .create()
+                    dialog.setOnShowListener {
+                        val positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        positive.setBackgroundColor(Color.parseColor("#E53935")) // красный
+                        positive.setTextColor(Color.WHITE)
                         dialog.window?.setBackgroundDrawableResource(R.drawable.bg_dialog_card)
                     }
                     dialog.show()
@@ -225,6 +272,9 @@ class ProfileFragment : Fragment() {
                 editor.putBoolean("has_unsaved_changes", false)
                 editor.commit()
 
+                // Обновляем подпись возраста после сохранения
+                ageUnit.text = getAgeUnit(age.toIntOrNull() ?: 0)
+
                 // Скрываем галочку
                 hideSaveButton()
                 hasUnsavedChanges = false
@@ -234,6 +284,17 @@ class ProfileFragment : Fragment() {
             }
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    private fun getAgeUnit(age: Int): String {
+        val lastDigit = age % 10
+        val lastTwoDigits = age % 100
+        return when {
+            lastTwoDigits in 11..14 -> "лет"
+            lastDigit == 1 -> "год"
+            lastDigit in 2..4 -> "года"
+            else -> "лет"
         }
     }
 
