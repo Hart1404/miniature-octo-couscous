@@ -95,7 +95,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Today, Dec 22"
+                        android:text="Сегодня, 22 дек"
                         android:textColor="#222"
                         android:textSize="16sp"
                         android:fontFamily="sans-serif-medium"
@@ -127,7 +127,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="kcal left"
+                                android:text="ккал осталось"
                                 android:textColor="#888"
                                 android:textSize="16sp"
                                 android:fontFamily="sans-serif" />
@@ -159,7 +159,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Eaten"
+                                android:text="Съедено"
                                 android:textColor="#888"
                                 android:textSize="14sp"
                                 android:fontFamily="sans-serif" />
@@ -182,7 +182,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Burned"
+                                android:text="Сожжено"
                                 android:textColor="#888"
                                 android:textSize="14sp"
                                 android:fontFamily="sans-serif" />
@@ -225,7 +225,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="/ 224 g"
+                                        android:text="/ 224 г"
                                         android:textColor="#888"
                                         android:textSize="12sp" />
                                 </LinearLayout>
@@ -233,7 +233,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Carbs"
+                                android:text="Углеводы"
                                 android:textColor="#888"
                                 android:textSize="14sp"
                                 android:fontFamily="sans-serif"
@@ -269,7 +269,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="/ 128 g"
+                                        android:text="/ 128 г"
                                         android:textColor="#888"
                                         android:textSize="12sp" />
                                 </LinearLayout>
@@ -277,7 +277,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Protein"
+                                android:text="Белки"
                                 android:textColor="#888"
                                 android:textSize="14sp"
                                 android:fontFamily="sans-serif"
@@ -313,7 +313,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="/ 128 g"
+                                        android:text="/ 128 г"
                                         android:textColor="#888"
                                         android:textSize="12sp" />
                                 </LinearLayout>
@@ -321,7 +321,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Fat"
+                                android:text="Жиры"
                                 android:textColor="#888"
                                 android:textSize="14sp"
                                 android:fontFamily="sans-serif"
@@ -369,7 +369,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Walking"
+                            android:text="Ходьба"
                             android:textColor="#888"
                             android:textSize="14sp"
                             android:fontFamily="sans-serif" />
@@ -391,7 +391,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Activity"
+                            android:text="Активность"
                             android:textColor="#888"
                             android:textSize="14sp"
                             android:fontFamily="sans-serif" />
@@ -448,7 +448,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Breakfast"
+                                android:text="Завтрак"
                                 android:textColor="#222"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
@@ -457,7 +457,7 @@
                                 android:id="@+id/breakfastKcal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0 / 768 kcal"
+                                android:text="0 / 768 ккал"
                                 android:textColor="#888"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -504,7 +504,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Lunch"
+                                android:text="Обед"
                                 android:textColor="#222"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
@@ -513,7 +513,7 @@
                                 android:id="@+id/lunchKcal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0 / 768 kcal"
+                                android:text="0 / 768 ккал"
                                 android:textColor="#888"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -560,7 +560,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Dinner"
+                                android:text="Ужин"
                                 android:textColor="#222"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
@@ -569,7 +569,7 @@
                                 android:id="@+id/dinnerKcal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0 / 768 kcal"
+                                android:text="0 / 768 ккал"
                                 android:textColor="#888"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -616,7 +616,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Snacks"
+                                android:text="Перекус"
                                 android:textColor="#222"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
@@ -625,7 +625,7 @@
                                 android:id="@+id/snacksKcal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0 / 256 kcal"
+                                android:text="0 / 256 ккал"
                                 android:textColor="#888"
                                 android:textSize="14sp" />
                         </LinearLayout>
