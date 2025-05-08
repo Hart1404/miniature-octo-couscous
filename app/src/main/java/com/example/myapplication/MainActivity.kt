@@ -10,12 +10,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Настройка нижней навигации
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavView)
+
+        // Установка начального фрагмента
+        if (savedInstanceState == null) {
+            loadFragment(HomeFragment())
+        }
+
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    // Главная страница уже отображается
+                    loadFragment(HomeFragment())
                     true
                 }
                 R.id.navigation_recommendations -> {
