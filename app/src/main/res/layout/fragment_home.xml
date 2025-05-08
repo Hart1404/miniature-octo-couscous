@@ -358,7 +358,7 @@
                     <!-- Завтрак -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
+                        android:layout_height="72dp"
                         android:padding="8dp">
                         <ImageView
                             android:id="@+id/breakfastIcon"
@@ -414,7 +414,7 @@
                     <!-- Обед -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
+                        android:layout_height="72dp"
                         android:padding="8dp">
                         <ImageView
                             android:id="@+id/lunchIcon"
@@ -470,7 +470,7 @@
                     <!-- Ужин -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
+                        android:layout_height="72dp"
                         android:padding="8dp">
                         <ImageView
                             android:id="@+id/dinnerIcon"
@@ -526,7 +526,7 @@
                     <!-- Перекусы -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
+                        android:layout_height="72dp"
                         android:padding="8dp">
                         <ImageView
                             android:id="@+id/snacksIcon"

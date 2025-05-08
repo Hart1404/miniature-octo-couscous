@@ -11,7 +11,7 @@
     <FrameLayout
         android:id="@+id/appBar"
         android:layout_width="0dp"
-        android:layout_height="72dp"
+        android:layout_height="56dp"
         android:background="@drawable/bg_appbar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
                 android:id="@+id/appTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="НАЗВАНИЕ"
+                android:text="Healthy food"
                 android:textColor="#222"
                 android:textStyle="bold"
                 android:textSize="20sp"

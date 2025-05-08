@@ -13,6 +13,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Меняем цвет status bar на цвет шапки
+        window.statusBarColor = resources.getColor(R.color.appBarColor, theme)
+
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavView)
 
         // Находим кнопку сохранения и устанавливаем обработчик
