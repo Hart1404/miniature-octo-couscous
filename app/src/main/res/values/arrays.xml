@@ -1,0 +1,17 @@
+<resources>
+    <string-array name="gender_array">
+        <item>Мужской</item>
+        <item>Женский</item>
+    </string-array>
+    <string-array name="lifestyle_array">
+        <item>Неактивный</item>
+        <item>Умеренный</item>
+        <item>Активный</item>
+        <item>Очень активный</item>
+    </string-array>
+    <string-array name="goal_array">
+        <item>Поддержание веса</item>
+        <item>Сброс веса</item>
+        <item>Набор массы</item>
+    </string-array>
+</resources> 
