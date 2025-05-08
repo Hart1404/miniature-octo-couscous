@@ -11,7 +11,7 @@
     <FrameLayout
         android:id="@+id/appBar"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_appbar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

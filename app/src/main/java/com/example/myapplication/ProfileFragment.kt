@@ -12,6 +12,9 @@ import android.widget.EditText
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import android.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import android.graphics.Color
 
 class ProfileFragment : Fragment() {
     private var userName: String = ""
@@ -187,6 +190,27 @@ class ProfileFragment : Fragment() {
                 val gender = v.findViewById<MaterialAutoCompleteTextView>(R.id.genderSpinner)?.text.toString()
                 val lifestyle = v.findViewById<MaterialAutoCompleteTextView>(R.id.lifestyleSpinner)?.text.toString()
                 val goal = v.findViewById<MaterialAutoCompleteTextView>(R.id.goalSpinner)?.text.toString()
+
+                // Проверка диапазона веса
+                val weightNum = weight.toIntOrNull()
+                if (weightNum == null || weightNum < 20 || weightNum > 400) {
+                    val dialog = MaterialAlertDialogBuilder(requireContext())
+                        .setTitle("Некорректный вес")
+                        .setMessage("Введите вес от 20 до 400 кг.")
+                        .setPositiveButton("ОК") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .create()
+                    dialog.setOnShowListener {
+                        val positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        positive.setBackgroundColor(Color.parseColor("#E53935")) // красный
+                        positive.setTextColor(Color.WHITE)
+                        // Скругление и ширина как у карточек
+                        dialog.window?.setBackgroundDrawableResource(R.drawable.bg_dialog_card)
+                    }
+                    dialog.show()
+                    return
+                }
 
                 // Сохраняем в SharedPreferences
                 val sharedPrefs = requireContext().getSharedPreferences("profile_prefs", Context.MODE_PRIVATE)

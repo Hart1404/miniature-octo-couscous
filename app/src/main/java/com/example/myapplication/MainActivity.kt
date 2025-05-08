@@ -16,6 +16,15 @@ class MainActivity : AppCompatActivity() {
         // Меняем цвет status bar на цвет шапки
         window.statusBarColor = resources.getColor(R.color.appBarColor, theme)
 
+        // Устанавливаем высоту appBar = высота статус-бара + 35dp
+        val statusBarHeight = getStatusBarHeight()
+        val extraHeight = (35 * resources.displayMetrics.density).toInt()
+        val totalHeight = statusBarHeight + extraHeight
+        val appBar = findViewById<View>(R.id.appBar)
+        val params = appBar.layoutParams
+        params.height = totalHeight
+        appBar.layoutParams = params
+
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavView)
 
         // Находим кнопку сохранения и устанавливаем обработчик
@@ -61,5 +70,14 @@ class MainActivity : AppCompatActivity() {
         // Переходим в раздел профиля
         loadFragment(ProfileFragment())
         findViewById<BottomNavigationView>(R.id.bottomNavView)?.selectedItemId = R.id.navigation_profile
+    }
+
+    private fun getStatusBarHeight(): Int {
+        var result = 0
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId)
+        }
+        return result
     }
 } 
