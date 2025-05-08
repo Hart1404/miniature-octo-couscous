@@ -77,5 +77,28 @@ class HomeFragment : Fragment() {
         view.findViewById<TextView>(R.id.proteinNorm)?.text = "/ $protein г"
         view.findViewById<TextView>(R.id.fat)?.text = currentFat.toString()
         view.findViewById<TextView>(R.id.fatNorm)?.text = "/ $fat г"
+
+        // Распределение калорий по приёмам пищи
+        val (breakfastPercent, lunchPercent, dinnerPercent, snacksPercent) = when (goal) {
+            "Сброс веса" -> listOf(0.30, 0.35, 0.20, 0.15)
+            "Набор массы" -> listOf(0.25, 0.30, 0.25, 0.20)
+            else -> listOf(0.25, 0.30, 0.25, 0.20)
+        }
+        val breakfastNorm = (calories * breakfastPercent).toInt()
+        val lunchNorm = (calories * lunchPercent).toInt()
+        val dinnerNorm = (calories * dinnerPercent).toInt()
+        val snacksNorm = (calories * snacksPercent).toInt()
+
+        // Получаем текущее потребление по приёмам пищи (если реализовано)
+        val currentBreakfast = prefs.getInt("current_breakfast", 0)
+        val currentLunch = prefs.getInt("current_lunch", 0)
+        val currentDinner = prefs.getInt("current_dinner", 0)
+        val currentSnacks = prefs.getInt("current_snacks", 0)
+
+        // Обновляем отображение калорий по приёмам пищи
+        view.findViewById<TextView>(R.id.breakfastKcal)?.text = "$currentBreakfast / $breakfastNorm ккал"
+        view.findViewById<TextView>(R.id.lunchKcal)?.text = "$currentLunch / $lunchNorm ккал"
+        view.findViewById<TextView>(R.id.dinnerKcal)?.text = "$currentDinner / $dinnerNorm ккал"
+        view.findViewById<TextView>(R.id.snacksKcal)?.text = "$currentSnacks / $snacksNorm ккал"
     }
 } 
