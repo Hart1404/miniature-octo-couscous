@@ -71,32 +71,60 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="20dp">
-                    <EditText
-                        android:id="@+id/weightEdit"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:hint="Вес (кг)"
-                        android:inputType="numberDecimal"
-                        android:textColor="#222"
-                        android:textSize="18sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:background="@android:color/transparent"
-                        android:padding="12dp"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="12dp" />
-                    <EditText
-                        android:id="@+id/heightEdit"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+                        <EditText
+                            android:id="@+id/weightEdit"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:hint="Вес"
+                            android:inputType="numberDecimal"
+                            android:textColor="#222"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:background="@android:color/transparent"
+                            android:padding="12dp"
+                            android:gravity="center_vertical" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="кг"
+                            android:textColor="#888"
+                            android:textSize="16sp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="8dp" />
+                    </LinearLayout>
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:hint="Рост (см)"
-                        android:inputType="numberDecimal"
-                        android:textColor="#222"
-                        android:textSize="18sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:background="@android:color/transparent"
-                        android:padding="12dp"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="12dp" />
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+                        <EditText
+                            android:id="@+id/heightEdit"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:hint="Рост"
+                            android:inputType="numberDecimal"
+                            android:textColor="#222"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:background="@android:color/transparent"
+                            android:padding="12dp"
+                            android:gravity="center_vertical" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="см"
+                            android:textColor="#888"
+                            android:textSize="16sp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="8dp" />
+                    </LinearLayout>
                     <EditText
                         android:id="@+id/ageEdit"
                         android:layout_width="match_parent"

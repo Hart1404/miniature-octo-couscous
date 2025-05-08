@@ -164,6 +164,7 @@
                                         android:textStyle="bold"
                                         android:fontFamily="sans-serif-medium" />
                                     <TextView
+                                        android:id="@+id/carbsNorm"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="/ 224 г"
@@ -171,15 +172,6 @@
                                         android:textSize="12sp" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Углеводы"
-                                android:textColor="#888"
-                                android:textSize="14sp"
-                                android:fontFamily="sans-serif"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="4dp" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="0dp"
@@ -208,6 +200,7 @@
                                         android:textStyle="bold"
                                         android:fontFamily="sans-serif-medium" />
                                     <TextView
+                                        android:id="@+id/proteinNorm"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="/ 128 г"
@@ -215,15 +208,6 @@
                                         android:textSize="12sp" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Белки"
-                                android:textColor="#888"
-                                android:textSize="14sp"
-                                android:fontFamily="sans-serif"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="4dp" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="0dp"
@@ -252,6 +236,7 @@
                                         android:textStyle="bold"
                                         android:fontFamily="sans-serif-medium" />
                                     <TextView
+                                        android:id="@+id/fatNorm"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="/ 128 г"
@@ -259,15 +244,6 @@
                                         android:textSize="12sp" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Жиры"
-                                android:textColor="#888"
-                                android:textSize="14sp"
-                                android:fontFamily="sans-serif"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="4dp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
