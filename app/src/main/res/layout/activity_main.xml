@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8F8"
+    android:background="#E4E4E4"
     tools:context=".MainActivity">
 
     <!-- Верхняя панель -->
@@ -17,21 +17,12 @@
         app:cardBackgroundColor="#A3D645"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="#A3D645">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/logo"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_apple"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="16dp" />
 
             <TextView
                 android:id="@+id/appTitle"
@@ -44,15 +35,22 @@
                 android:fontFamily="sans-serif"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/logo"
-                app:layout_constraintEnd_toStartOf="@id/calendar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5" />
 
-            <ImageView
-                android:id="@+id/calendar"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@android:drawable/ic_menu_my_calendar"
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/settingsButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_green_circle"
+                android:src="@android:drawable/ic_menu_manage"
+                android:contentDescription="Настройки"
+                android:scaleType="center"
+                android:padding="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_circle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -65,6 +63,7 @@
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/appBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +80,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="24dp"
-                app:cardElevation="6dp"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="#FFF">
 
@@ -109,7 +107,7 @@
                         app:cardCornerRadius="80dp"
                         app:cardElevation="2dp"
                         android:layout_gravity="center_horizontal"
-                        android:backgroundTint="#F8F8F8">
+                        android:backgroundTint="#FFF">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -207,7 +205,7 @@
                                 android:layout_height="64dp"
                                 app:cardCornerRadius="32dp"
                                 app:cardElevation="2dp"
-                                android:backgroundTint="#F8F8F8">
+                                android:backgroundTint="#FFF">
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -251,7 +249,7 @@
                                 android:layout_height="64dp"
                                 app:cardCornerRadius="32dp"
                                 app:cardElevation="2dp"
-                                android:backgroundTint="#F8F8F8">
+                                android:backgroundTint="#FFF">
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -295,7 +293,7 @@
                                 android:layout_height="64dp"
                                 app:cardCornerRadius="32dp"
                                 app:cardElevation="2dp"
-                                android:backgroundTint="#F8F8F8">
+                                android:backgroundTint="#FFF">
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -337,7 +335,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="24dp"
-                app:cardElevation="6dp"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="#FFF">
 
@@ -414,7 +411,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="24dp"
-                app:cardElevation="6dp"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="#FFF">
                 <LinearLayout
@@ -472,7 +468,7 @@
                             android:padding="0dp"
                             android:clickable="true"
                             android:focusable="true"
-                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:foreground="@drawable/ripple_circle"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -528,7 +524,7 @@
                             android:padding="0dp"
                             android:clickable="true"
                             android:focusable="true"
-                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:foreground="@drawable/ripple_circle"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -584,7 +580,7 @@
                             android:padding="0dp"
                             android:clickable="true"
                             android:focusable="true"
-                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:foreground="@drawable/ripple_circle"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -640,7 +636,7 @@
                             android:padding="0dp"
                             android:clickable="true"
                             android:focusable="true"
-                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:foreground="@drawable/ripple_circle"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
