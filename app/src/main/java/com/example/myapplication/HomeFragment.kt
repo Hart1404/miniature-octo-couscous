@@ -21,6 +21,15 @@ class HomeFragment : Fragment() {
     private var lastLunchNorm = 0
     private var lastDinnerNorm = 0
     private var lastSnacksNorm = 0
+    private var lastSalt = 0.0
+    private var lastCalcium = 0
+    private var lastMagnesium = 0
+    private var lastPotassium = 0
+    private var lastIron = 0
+    private var lastFiber = 0.0
+    private var lastOmega3 = 0.0
+    private var lastVitaminD = 0
+    private var lastVitaminC = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -183,5 +192,99 @@ class HomeFragment : Fragment() {
         if (animate) animateTextViewChange(snacksKcalView, lastSnacksNorm, currentSnacks, " / $snacksNorm ккал")
         else snacksKcalView?.text = "$currentSnacks / $snacksNorm ккал"
         lastSnacksNorm = currentSnacks
+
+        // Расчет норм макроэлементов
+        // Соль (г)
+        val saltNorm = (3 + (weight * 0.01) + (activityFactor * 0.3) - (age * 0.01)).coerceIn(3.0, 6.0)
+        
+        // Кальций (мг)
+        val calciumNorm = 1000 + (if (age >= 50) 200 else 0) + (if (gender == "Женский") 200 else 0)
+        
+        // Магний (мг)
+        val magnesiumNorm = (if (gender == "Мужской") 400 else 300) + (weight * 0.5) + (activityFactor * 20)
+        
+        // Калий (мг)
+        val potassiumNorm = 2500 + (weight * 10) + (height * 2) - (age * 5)
+        
+        // Железо (мг)
+        val ironNorm = (if (gender == "Женский") 18 else 8) + (if (goal == "Набор массы") 2 else 0)
+        
+        // Клетчатка (г)
+        val fiberNorm = weight * (if (goal == "Сброс веса") 0.5 else 0.4)
+        
+        // Омега-3 (г)
+        val omega3Norm = 1 + (activityFactor * 0.5) + (if (goal == "Сброс веса") 0.3 else 0.0)
+        
+        // Витамин D (МЕ)
+        val vitaminDNorm = 600 + (if (age >= 50) 200 else 0) + (if (activityFactor >= 1.55) 200 else 0)
+        
+        // Витамин C (мг)
+        val vitaminCNorm = (if (gender == "Мужской") 90 else 75) + (activityFactor * 10)
+
+        // Получаем текущее потребление макроэлементов
+        val currentSalt = prefs.getFloat("current_salt", 0f).toDouble()
+        val currentCalcium = prefs.getInt("current_calcium", 0)
+        val currentMagnesium = prefs.getInt("current_magnesium", 0)
+        val currentPotassium = prefs.getInt("current_potassium", 0)
+        val currentIron = prefs.getInt("current_iron", 0)
+        val currentFiber = prefs.getFloat("current_fiber", 0f).toDouble()
+        val currentOmega3 = prefs.getFloat("current_omega3", 0f).toDouble()
+        val currentVitaminD = prefs.getInt("current_vitamin_d", 0)
+        val currentVitaminC = prefs.getInt("current_vitamin_c", 0)
+
+        // Анимация для макроэлементов
+        val saltView = view.findViewById<TextView>(R.id.salt)
+        if (animate) animateTextViewChange(saltView, lastSalt.toInt(), currentSalt.toInt()) else saltView?.text = currentSalt.toInt().toString()
+        lastSalt = currentSalt
+        val saltNormView = view.findViewById<TextView>(R.id.saltNorm)
+        saltNormView?.text = "/ ${saltNorm.toInt()} г"
+
+        val calciumView = view.findViewById<TextView>(R.id.calcium)
+        if (animate) animateTextViewChange(calciumView, lastCalcium, currentCalcium) else calciumView?.text = currentCalcium.toString()
+        lastCalcium = currentCalcium
+        val calciumNormView = view.findViewById<TextView>(R.id.calciumNorm)
+        calciumNormView?.text = "/ $calciumNorm мг"
+
+        val magnesiumView = view.findViewById<TextView>(R.id.magnesium)
+        if (animate) animateTextViewChange(magnesiumView, lastMagnesium, currentMagnesium) else magnesiumView?.text = currentMagnesium.toString()
+        lastMagnesium = currentMagnesium
+        val magnesiumNormView = view.findViewById<TextView>(R.id.magnesiumNorm)
+        magnesiumNormView?.text = "/ ${magnesiumNorm.toInt()} мг"
+
+        val potassiumView = view.findViewById<TextView>(R.id.potassium)
+        if (animate) animateTextViewChange(potassiumView, lastPotassium, currentPotassium) else potassiumView?.text = currentPotassium.toString()
+        lastPotassium = currentPotassium
+        val potassiumNormView = view.findViewById<TextView>(R.id.potassiumNorm)
+        potassiumNormView?.text = "/ ${potassiumNorm.toInt()} мг"
+
+        val ironView = view.findViewById<TextView>(R.id.iron)
+        if (animate) animateTextViewChange(ironView, lastIron, currentIron) else ironView?.text = currentIron.toString()
+        lastIron = currentIron
+        val ironNormView = view.findViewById<TextView>(R.id.ironNorm)
+        ironNormView?.text = "/ $ironNorm мг"
+
+        val fiberView = view.findViewById<TextView>(R.id.fiber)
+        if (animate) animateTextViewChange(fiberView, lastFiber.toInt(), currentFiber.toInt()) else fiberView?.text = currentFiber.toInt().toString()
+        lastFiber = currentFiber
+        val fiberNormView = view.findViewById<TextView>(R.id.fiberNorm)
+        fiberNormView?.text = "/ ${fiberNorm.toInt()} г"
+
+        val omega3View = view.findViewById<TextView>(R.id.omega3)
+        if (animate) animateTextViewChange(omega3View, lastOmega3.toInt(), currentOmega3.toInt()) else omega3View?.text = currentOmega3.toInt().toString()
+        lastOmega3 = currentOmega3
+        val omega3NormView = view.findViewById<TextView>(R.id.omega3Norm)
+        omega3NormView?.text = "/ ${omega3Norm.toInt()} г"
+
+        val vitaminDView = view.findViewById<TextView>(R.id.vitaminD)
+        if (animate) animateTextViewChange(vitaminDView, lastVitaminD, currentVitaminD) else vitaminDView?.text = currentVitaminD.toString()
+        lastVitaminD = currentVitaminD
+        val vitaminDNormView = view.findViewById<TextView>(R.id.vitaminDNorm)
+        vitaminDNormView?.text = "/ $vitaminDNorm МЕ"
+
+        val vitaminCView = view.findViewById<TextView>(R.id.vitaminC)
+        if (animate) animateTextViewChange(vitaminCView, lastVitaminC, currentVitaminC) else vitaminCView?.text = currentVitaminC.toString()
+        lastVitaminC = currentVitaminC
+        val vitaminCNormView = view.findViewById<TextView>(R.id.vitaminCNorm)
+        vitaminCNormView?.text = "/ ${vitaminCNorm.toInt()} мг"
     }
 } 
