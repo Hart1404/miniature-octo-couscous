@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         appBar.layoutParams = params
 
         barcodeButton = findViewById(R.id.barcodeButton)
+        barcodeButton.setOnClickListener {
+            startActivity(Intent(this, BarcodeScannerActivity::class.java))
+        }
 
         // Установка начального фрагмента
         if (savedInstanceState == null) {
