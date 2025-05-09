@@ -49,8 +49,15 @@ class HomeFragment : Fragment() {
         val dateFormat = SimpleDateFormat("d MMM", Locale("ru"))
         val today = dateFormat.format(calendar.time)
         dateText.text = "Сегодня, $today"
-    }
 
+        // Переход в ActivityFragment по нажатию на зелёную кнопку
+        view.findViewById<View>(R.id.fab_activity)?.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, ActivityFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+    }
     override fun onResume() {
         super.onResume()
         view?.let { updateValuesWithAnimation(it, animate = true) }
@@ -114,17 +121,40 @@ class HomeFragment : Fragment() {
             "Набор массы" -> tdee * 1.1
             else -> tdee
         }
-        val calories = tdee.toInt()
+        val caloriesBase = tdee.toInt()
 
-        // 4. Белки, жиры, углеводы по процентам
+        // Получаем текущее потребление калорий (съедено)
+        val currentEaten = prefs.getInt("current_eaten", 0)
+        view.findViewById<TextView>(R.id.eatenKcal)?.text = currentEaten.toString()
+
+        // Получаем количество шагов для расчёта сожжённых калорий
+        val stepsPrefs = requireContext().getSharedPreferences("activity_prefs", Context.MODE_PRIVATE)
+        val steps = stepsPrefs.getString("steps", "0") ?: "0"
+        view.findViewById<TextView>(R.id.walking)?.text = steps
+        view.findViewById<TextView>(R.id.walkingLabel)?.text = getStepsLabel(steps)
+        val stepsNum = steps.toIntOrNull() ?: 0
+        val heightM = height / 100.0
+        val burned = (weight * stepsNum * heightM * 0.000315).toInt()
+        view.findViewById<TextView>(R.id.burnedKcal)?.text = burned.toString()
+
+        // Оставшиеся калории = caloriesBase - currentEaten + burned
+        val kcalLeft = view.findViewById<TextView>(R.id.kcalLeft)
+        val left = caloriesBase - currentEaten + burned
+        if (animate) animateTextViewChange(kcalLeft, lastCalories, left) else kcalLeft?.text = left.toString()
+        lastCalories = left
+
+        // Калорийность на день = базовые калории + сожжённые калории
+        val caloriesForDay = caloriesBase + burned
+
+        // 4. Белки, жиры, углеводы по процентам (от caloriesForDay)
         val (proteinPercent, fatPercent, carbsPercent) = when (goal) {
             "Сброс веса" -> Triple(0.45, 0.25, 0.30)
             "Набор массы" -> Triple(0.30, 0.20, 0.50)
             else -> Triple(0.30, 0.30, 0.40)
         }
-        val protein = ((calories * proteinPercent) / 4).toInt()
-        val fat = ((calories * fatPercent) / 9).toInt()
-        val carbs = ((calories * carbsPercent) / 4).toInt()
+        val protein = ((caloriesForDay * proteinPercent) / 4).toInt()
+        val fat = ((caloriesForDay * fatPercent) / 9).toInt()
+        val carbs = ((caloriesForDay * carbsPercent) / 4).toInt()
 
         // Получаем текущее потребление из SharedPreferences
         val currentCarbs = prefs.getInt("current_carbs", 0)
@@ -137,21 +167,16 @@ class HomeFragment : Fragment() {
             "Набор массы" -> listOf(0.25, 0.30, 0.25, 0.20)
             else -> listOf(0.25, 0.30, 0.25, 0.20)
         }
-        val breakfastNorm = (calories * breakfastPercent).toInt()
-        val lunchNorm = (calories * lunchPercent).toInt()
-        val dinnerNorm = (calories * dinnerPercent).toInt()
-        val snacksNorm = (calories * snacksPercent).toInt()
+        val breakfastNorm = (caloriesForDay * breakfastPercent).toInt()
+        val lunchNorm = (caloriesForDay * lunchPercent).toInt()
+        val dinnerNorm = (caloriesForDay * dinnerPercent).toInt()
+        val snacksNorm = (caloriesForDay * snacksPercent).toInt()
 
         // Получаем текущее потребление по приёмам пищи (если реализовано)
         val currentBreakfast = prefs.getInt("current_breakfast", 0)
         val currentLunch = prefs.getInt("current_lunch", 0)
         val currentDinner = prefs.getInt("current_dinner", 0)
         val currentSnacks = prefs.getInt("current_snacks", 0)
-
-        // Анимация для калорий
-        val kcalLeft = view.findViewById<TextView>(R.id.kcalLeft)
-        if (animate) animateTextViewChange(kcalLeft, lastCalories, calories) else kcalLeft?.text = calories.toString()
-        lastCalories = calories
 
         // Анимация для макроэлементов
         val carbsView = view.findViewById<TextView>(R.id.carbs)
@@ -286,5 +311,17 @@ class HomeFragment : Fragment() {
         lastVitaminC = currentVitaminC
         val vitaminCNormView = view.findViewById<TextView>(R.id.vitaminCNorm)
         vitaminCNormView?.text = "/ ${vitaminCNorm.toInt()} мг"
+    }
+
+    private fun getStepsLabel(steps: String): String {
+        val n = steps.toIntOrNull() ?: 0
+        val lastDigit = n % 10
+        val lastTwoDigits = n % 100
+        return when {
+            lastTwoDigits in 11..14 -> "шагов"
+            lastDigit == 1 -> "шаг"
+            lastDigit in 2..4 -> "шага"
+            else -> "шагов"
+        }
     }
 } 
