@@ -9,6 +9,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.widget.AppCompatImageButton
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var barcodeButton: AppCompatImageButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,39 +27,14 @@ class MainActivity : AppCompatActivity() {
         params.height = totalHeight
         appBar.layoutParams = params
 
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavView)
-
-        // Находим кнопку сохранения и устанавливаем обработчик
-        findViewById<AppCompatImageButton>(R.id.saveProfileButton)?.setOnClickListener {
-            saveProfileData()
-        }
+        barcodeButton = findViewById(R.id.barcodeButton)
 
         // Установка начального фрагмента
         if (savedInstanceState == null) {
             loadFragment(HomeFragment())
         }
 
-        bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_home -> {
-                    loadFragment(HomeFragment())
-                    true
-                }
-                R.id.navigation_recommendations -> {
-                    loadFragment(RecommendationsFragment())
-                    true
-                }
-                R.id.navigation_statistics -> {
-                    loadFragment(StatisticsFragment())
-                    true
-                }
-                R.id.navigation_profile -> {
-                    loadFragment(ProfileFragment())
-                    true
-                }
-                else -> false
-            }
-        }
+        setupBottomNavigation()
     }
 
     fun loadFragment(fragment: Fragment) {
@@ -79,5 +56,45 @@ class MainActivity : AppCompatActivity() {
             result = resources.getDimensionPixelSize(resourceId)
         }
         return result
+    }
+
+    private fun setupBottomNavigation() {
+        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottomNavView)
+
+        bottomNavView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, HomeFragment())
+                        .commit()
+                    barcodeButton.visibility = View.VISIBLE
+                    true
+                }
+                R.id.navigation_profile -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, ProfileFragment())
+                        .commit()
+                    barcodeButton.visibility = View.GONE
+                    true
+                }
+                R.id.navigation_statistics -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, StatisticsFragment())
+                        .commit()
+                    barcodeButton.visibility = View.GONE
+                    true
+                }
+                R.id.navigation_recommendations -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, RecommendationsFragment())
+                        .commit()
+                    barcodeButton.visibility = View.GONE
+                    true
+                }
+                else -> false
+            }
+        }
+        // Устанавливаем HomeFragment как начальный фрагмент
+        bottomNavView.selectedItemId = R.id.navigation_home
     }
 } 

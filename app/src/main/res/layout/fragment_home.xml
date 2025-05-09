@@ -581,10 +581,6 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-            <!-- Заполнитель для нижней панели -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="56dp" />
 
             <!-- Блок макроэлементов -->
             <androidx.cardview.widget.CardView
@@ -1036,6 +1032,9 @@
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="56dp" />
         </LinearLayout>
     </ScrollView>
 
