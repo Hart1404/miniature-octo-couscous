@@ -57,6 +57,23 @@ class HomeFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        // Обработчики нажатия на кнопки добавления продуктов
+        view.findViewById<View>(R.id.breakfastAdd)?.setOnClickListener {
+            navigateToProducts("breakfast")
+        }
+
+        view.findViewById<View>(R.id.lunchAdd)?.setOnClickListener {
+            navigateToProducts("lunch")
+        }
+
+        view.findViewById<View>(R.id.dinnerAdd)?.setOnClickListener {
+            navigateToProducts("dinner")
+        }
+
+        view.findViewById<View>(R.id.snacksAdd)?.setOnClickListener {
+            navigateToProducts("snacks")
+        }
     }
     override fun onResume() {
         super.onResume()
@@ -322,6 +339,32 @@ class HomeFragment : Fragment() {
             lastDigit == 1 -> "шаг"
             lastDigit in 2..4 -> "шага"
             else -> "шагов"
+        }
+    }
+
+    private fun navigateToProducts(mealType: String) {
+        try {
+            val productsFragment = ProductsFragment().apply {
+                arguments = Bundle().apply {
+                    putString("mealType", mealType)
+                }
+            }
+            
+            //Проверяем, что фрагмент еще прикреплен к активности
+            if (isAdded && activity != null) {
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.slide_in_right,
+                        R.anim.slide_out_left,
+                        R.anim.slide_in_left,
+                        R.anim.slide_out_right
+                    )
+                    .replace(R.id.fragmentContainer, productsFragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 } 
