@@ -7,7 +7,7 @@
     <item
         android:id="@+id/navigation_recommendations"
         android:icon="@android:drawable/ic_menu_help"
-        android:title="Рекомендации" />
+        android:title="Меню дня" />
     <item
         android:id="@+id/navigation_statistics"
         android:icon="@android:drawable/ic_menu_sort_by_size"
