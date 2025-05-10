@@ -71,6 +71,24 @@
                 android:layout_marginEnd="16dp" />
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/editProfileButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_edit"
+                android:contentDescription="Редактировать профиль"
+                android:scaleType="center"
+                android:padding="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_circle"
+                app:layout_constraintEnd_toStartOf="@id/saveProfileButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/saveProfileButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

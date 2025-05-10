@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatImageButton
 
 class MainActivity : AppCompatActivity() {
     private lateinit var barcodeButton: AppCompatImageButton
+    private lateinit var editProfileButton: AppCompatImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         appBar.layoutParams = params
 
         barcodeButton = findViewById(R.id.barcodeButton)
+        editProfileButton = findViewById(R.id.editProfileButton)
         barcodeButton.setOnClickListener {
             startActivity(Intent(this, BarcodeScannerActivity::class.java))
         }
@@ -45,6 +47,18 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .commit()
+        
+        // Скрываем кнопки в зависимости от фрагмента
+        when (fragment) {
+            is ProfileFragment -> {
+                barcodeButton.visibility = View.GONE
+                editProfileButton.visibility = View.VISIBLE
+            }
+            else -> {
+                barcodeButton.visibility = if (fragment is HomeFragment) View.VISIBLE else View.GONE
+                editProfileButton.visibility = View.GONE
+            }
+        }
     }
 
     fun saveProfileData() {

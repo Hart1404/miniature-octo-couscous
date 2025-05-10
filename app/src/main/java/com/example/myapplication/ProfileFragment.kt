@@ -27,8 +27,16 @@ class ProfileFragment : Fragment() {
     private var goal: String = ""
 
     private var hasUnsavedChanges = false
+    private var isEditMode = false
 
     private lateinit var ageUnit: TextView
+    private lateinit var userNameEdit: EditText
+    private lateinit var weightEdit: EditText
+    private lateinit var heightEdit: EditText
+    private lateinit var ageEdit: EditText
+    private lateinit var genderSpinner: MaterialAutoCompleteTextView
+    private lateinit var lifestyleSpinner: MaterialAutoCompleteTextView
+    private lateinit var goalSpinner: MaterialAutoCompleteTextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,13 +56,13 @@ class ProfileFragment : Fragment() {
         val lifestyleAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, lifestyleArray)
         val goalAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, goalArray)
 
-        val genderSpinner = view.findViewById<MaterialAutoCompleteTextView>(R.id.genderSpinner)
-        val lifestyleSpinner = view.findViewById<MaterialAutoCompleteTextView>(R.id.lifestyleSpinner)
-        val goalSpinner = view.findViewById<MaterialAutoCompleteTextView>(R.id.goalSpinner)
-        val userNameEdit = view.findViewById<EditText>(R.id.userNameEdit)
-        val weightEdit = view.findViewById<EditText>(R.id.weightEdit)
-        val heightEdit = view.findViewById<EditText>(R.id.heightEdit)
-        val ageEdit = view.findViewById<EditText>(R.id.ageEdit)
+        genderSpinner = view.findViewById(R.id.genderSpinner)
+        lifestyleSpinner = view.findViewById(R.id.lifestyleSpinner)
+        goalSpinner = view.findViewById(R.id.goalSpinner)
+        userNameEdit = view.findViewById(R.id.userNameEdit)
+        weightEdit = view.findViewById(R.id.weightEdit)
+        heightEdit = view.findViewById(R.id.heightEdit)
+        ageEdit = view.findViewById(R.id.ageEdit)
         ageUnit = view.findViewById(R.id.ageUnit)
 
         genderSpinner.setAdapter(genderAdapter)
@@ -83,6 +91,28 @@ class ProfileFragment : Fragment() {
         goalSpinner.setText(goal, false)
         // Обновляем подпись возраста
         ageUnit.text = getAgeUnit(age.toIntOrNull() ?: 0)
+
+        // Отключаем редактирование полей
+        setFieldsEditable(false)
+
+        // Показываем кнопку редактирования
+        showEditButton()
+
+        // Обработчик нажатия на кнопку редактирования
+        activity?.findViewById<AppCompatImageButton>(R.id.editProfileButton)?.setOnClickListener {
+            isEditMode = true
+            setFieldsEditable(true)
+            hideEditButton()
+            android.widget.Toast.makeText(requireContext(), "Редактирование профиля", android.widget.Toast.LENGTH_SHORT).show()
+        }
+
+        // Обработчик нажатия на кнопку сохранения
+        activity?.findViewById<AppCompatImageButton>(R.id.saveProfileButton)?.setOnClickListener {
+            saveProfile()
+            isEditMode = false
+            setFieldsEditable(false)
+            showEditButton()
+        }
 
         // Отключаем появление клавиатуры при нажатии на выпадающие списки
         fun disableKeyboard(autoComplete: MaterialAutoCompleteTextView) {
@@ -156,10 +186,39 @@ class ProfileFragment : Fragment() {
             showSaveButton()
             hasUnsavedChanges = true
         }
+    }
 
-        // Сохраняем данные при нажатии на галочку
-        activity?.findViewById<AppCompatImageButton>(R.id.saveProfileButton)?.setOnClickListener {
-            saveProfile()
+    private fun setFieldsEditable(editable: Boolean) {
+        userNameEdit.isEnabled = editable
+        weightEdit.isEnabled = editable
+        heightEdit.isEnabled = editable
+        ageEdit.isEnabled = editable
+        genderSpinner.isEnabled = editable
+        lifestyleSpinner.isEnabled = editable
+        goalSpinner.isEnabled = editable
+    }
+
+    private fun showEditButton() {
+        try {
+            activity?.let { activity ->
+                activity.findViewById<AppCompatImageButton>(R.id.editProfileButton)?.let { button ->
+                    button.visibility = View.VISIBLE
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun hideEditButton() {
+        try {
+            activity?.let { activity ->
+                activity.findViewById<AppCompatImageButton>(R.id.editProfileButton)?.let { button ->
+                    button.visibility = View.GONE
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -301,5 +360,6 @@ class ProfileFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         hideSaveButton()
+        hideEditButton()
     }
 } 
