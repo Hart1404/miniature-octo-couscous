@@ -14,4 +14,14 @@ class RecommendationsFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_recommendations, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.findViewById<View>(R.id.filterButton)?.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, FilterFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+    }
 } 
