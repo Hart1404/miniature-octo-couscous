@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    android:padding="16dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="4dp"
+        android:backgroundTint="#FFF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/tvAllergensTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Мои аллергены"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#222"
+                android:layout_marginBottom="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🥛 Молоко" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchMilk" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🥚 Яйца" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchEggs" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🥜 Арахис" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchPeanut" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🌰 Орехи" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchNuts" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🐟 Рыба" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchFish" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🦐 Морепродукты" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchSeafood" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🌾 Злаки (глютен)" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchGluten" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🍑 Фрукты" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchFruits" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🍫 Шоколад" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchChocolate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🍓 Ягоды" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchBerries" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🥕 Овощи" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchVegetables" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🥖 Пшеница" android:textSize="20sp" android:textStyle="bold" android:textColor="#222" />
+                    <Switch android:id="@+id/switchWheat" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@drawable/switch_thumb_selector" android:trackTint="@drawable/switch_track_selector" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout> 

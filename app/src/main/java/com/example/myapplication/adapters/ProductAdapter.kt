@@ -29,11 +29,11 @@ class ProductAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val product = products[position]
-        holder.titleTextView.text = product.Title
-        holder.caloriesTextView.text = "Калории: ${product.Calories}"
-        holder.proteinTextView.text = "Белки: ${product.Protein}г"
-        holder.fatTextView.text = "Жиры: ${product.Fat}г"
-        holder.carbsTextView.text = "Углеводы: ${product.Carbohydrates}г"
+        holder.titleTextView.text = product.name
+        holder.caloriesTextView.text = "Калории: ${product.calories}"
+        holder.proteinTextView.text = "Белки: ${product.protein}г"
+        holder.fatTextView.text = "Жиры: ${product.fat}г"
+        holder.carbsTextView.text = "Углеводы: ${product.carbs}г"
 
         holder.itemView.setOnClickListener {
             onProductClick(product)

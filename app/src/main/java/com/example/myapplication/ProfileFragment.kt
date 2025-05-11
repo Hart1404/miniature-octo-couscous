@@ -114,12 +114,21 @@ class ProfileFragment : Fragment() {
             showEditButton()
         }
 
+        // Обработчик нажатия на кнопку Мои аллергены
+        view.findViewById<View>(R.id.btnAllergens)?.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, AllergensFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         // Отключаем появление клавиатуры при нажатии на выпадающие списки
         fun disableKeyboard(autoComplete: MaterialAutoCompleteTextView) {
             autoComplete.inputType = 0
             autoComplete.keyListener = null
             autoComplete.isCursorVisible = false
             autoComplete.setOnTouchListener { v, event ->
+                if (!isEditMode) return@setOnTouchListener true
                 v.performClick()
                 autoComplete.showDropDown()
                 v.clearFocus()
@@ -337,6 +346,9 @@ class ProfileFragment : Fragment() {
                 // Скрываем галочку
                 hideSaveButton()
                 hasUnsavedChanges = false
+
+                // Показываем уведомление о сохранении
+                android.widget.Toast.makeText(requireContext(), "Сохранено", android.widget.Toast.LENGTH_SHORT).show()
 
                 // Обновляем страницу
                 (activity as? MainActivity)?.loadFragment(ProfileFragment())

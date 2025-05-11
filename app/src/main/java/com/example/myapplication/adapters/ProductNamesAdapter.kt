@@ -9,7 +9,9 @@ import com.example.myapplication.R
 import com.example.myapplication.data.Product
 
 class ProductNamesAdapter(
-    private var products: List<Product> = emptyList()
+    private var products: List<Product> = emptyList(),
+    private var selectedIndex: Int = RecyclerView.NO_POSITION,
+    private val onProductClick: (Product, Int) -> Unit
 ) : RecyclerView.Adapter<ProductNamesAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -24,7 +26,15 @@ class ProductNamesAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val product = products[position]
-        holder.titleTextView.text = product.Title
+        holder.titleTextView.text = product.name
+        holder.titleTextView.setOnClickListener {
+            onProductClick(product, position)
+        }
+        // Выделение выбранного продукта
+        holder.titleTextView.setBackgroundColor(
+            if (position == selectedIndex) holder.titleTextView.context.getColor(R.color.appBarColor)
+            else holder.titleTextView.context.getColor(R.color.white)
+        )
     }
 
     override fun getItemCount() = products.size
@@ -32,5 +42,12 @@ class ProductNamesAdapter(
     fun updateProducts(newProducts: List<Product>) {
         products = newProducts
         notifyDataSetChanged()
+    }
+
+    fun setSelectedIndex(index: Int) {
+        val oldIndex = selectedIndex
+        selectedIndex = index
+        if (oldIndex != RecyclerView.NO_POSITION) notifyItemChanged(oldIndex)
+        if (selectedIndex != RecyclerView.NO_POSITION) notifyItemChanged(selectedIndex)
     }
 } 
