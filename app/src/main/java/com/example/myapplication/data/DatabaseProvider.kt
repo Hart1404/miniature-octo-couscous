@@ -4,15 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.room.migration.Migration
+import java.util.Date
 
-@Database(entities = [Product::class], version = 4)
+@Database(entities = [Product::class, UserData::class], version = 6)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
+    abstract fun userDataDao(): UserDataDao
 
     companion object {
         @Volatile
@@ -25,13 +29,15 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "food-diary-db"
                 )
-                .addMigrations(MIGRATION_3_4)
+                .addMigrations(MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
                 .build()
                 INSTANCE = inst
                 inst
             }
             // Проверяем и заполняем тестовыми продуктами, если таблица пуста
             instance.populateIfEmpty(context)
+            // Проверяем и создаем запись на текущий день
+            instance.checkAndCreateTodayRecord(context)
             return instance
         }
 
@@ -98,6 +104,99 @@ abstract class AppDatabase : RoomDatabase() {
                 database.execSQL("ALTER TABLE products_new RENAME TO products")
             }
         }
+
+        val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE products ADD COLUMN salt REAL NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE products ADD COLUMN calcium INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE products ADD COLUMN magnesium INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE products ADD COLUMN potassium INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE products ADD COLUMN iron REAL NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE products ADD COLUMN fiber REAL NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE products ADD COLUMN omega3 REAL NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE products ADD COLUMN vitamin_d INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE products ADD COLUMN vitamin_c INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
+        val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("""
+                    CREATE TABLE IF NOT EXISTS user_data (
+                        date INTEGER NOT NULL PRIMARY KEY,
+                        weight REAL NOT NULL DEFAULT 0,
+                        calories INTEGER NOT NULL DEFAULT 0,
+                        protein REAL NOT NULL DEFAULT 0,
+                        fat REAL NOT NULL DEFAULT 0,
+                        carbs REAL NOT NULL DEFAULT 0,
+                        eaten INTEGER NOT NULL DEFAULT 0,
+                        burned INTEGER NOT NULL DEFAULT 0,
+                        salt REAL NOT NULL DEFAULT 0,
+                        calcium INTEGER NOT NULL DEFAULT 0,
+                        magnesium INTEGER NOT NULL DEFAULT 0,
+                        potassium INTEGER NOT NULL DEFAULT 0,
+                        iron REAL NOT NULL DEFAULT 0,
+                        fiber REAL NOT NULL DEFAULT 0,
+                        omega3 REAL NOT NULL DEFAULT 0,
+                        vitamin_d INTEGER NOT NULL DEFAULT 0,
+                        vitamin_c INTEGER NOT NULL DEFAULT 0
+                    )
+                """)
+            }
+        }
+    }
+
+    private fun checkAndCreateTodayRecord(context: Context) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val dao = this@AppDatabase.userDataDao()
+            val today = Date()
+            val todayRecord = dao.getByDate(today)
+            
+            if (todayRecord == null) {
+                // Получаем данные из SharedPreferences
+                val prefs = context.getSharedPreferences("profile_prefs", Context.MODE_PRIVATE)
+                val weight = prefs.getString("weight", "")?.toDoubleOrNull() ?: 0.0
+                val height = prefs.getString("height", "")?.toDoubleOrNull() ?: 0.0
+                val age = prefs.getString("age", "")?.toDoubleOrNull() ?: 0.0
+                val gender = prefs.getString("gender", "Мужской") ?: "Мужской"
+                val lifestyle = prefs.getString("lifestyle", "Неактивный") ?: "Неактивный"
+                val goal = prefs.getString("goal", "Поддержание веса") ?: "Поддержание веса"
+
+                // Рассчитываем норму калорий
+                // 1. BMR
+                val bmr = if (gender == "Мужской") {
+                    88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age)
+                } else {
+                    447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age)
+                }
+
+                // 2. Коэффициент активности
+                val activityFactor = when (lifestyle) {
+                    "Неактивный" -> 1.2
+                    "Умеренный" -> 1.375
+                    "Активный" -> 1.55
+                    "Очень активный" -> 1.725
+                    else -> 1.2
+                }
+                var tdee = bmr * activityFactor
+
+                // 3. Корректировка по цели
+                tdee = when (goal) {
+                    "Сброс веса" -> tdee * 0.9
+                    "Набор массы" -> tdee * 1.1
+                    else -> tdee
+                }
+                val caloriesBase = tdee.toInt()
+
+                // Создаем новую запись на сегодня
+                val newRecord = UserData(
+                    date = today,
+                    weight = weight.toFloat(),
+                    calories = caloriesBase
+                )
+                dao.insert(newRecord)
+            }
+        }
     }
 
     fun populateIfEmpty(context: Context) {
@@ -121,7 +220,16 @@ abstract class AppDatabase : RoomDatabase() {
                         isNutsFree = true,
                         isEggsFree = true,
                         isFishFree = true,
-                        rating = 3.0f
+                        rating = 3.0f,
+                        salt = 0.01f,
+                        calcium = 16,
+                        magnesium = 5,
+                        potassium = 107,
+                        iron = 0.12f,
+                        fiber = 2.4f,
+                        omega3 = 0f,
+                        vitaminD = 0,
+                        vitaminC = 4
                     ),
                     Product(
                         name = "Куриная грудка",
@@ -137,7 +245,16 @@ abstract class AppDatabase : RoomDatabase() {
                         isNutsFree = true,
                         isEggsFree = true,
                         isFishFree = true,
-                        rating = 3.0f
+                        rating = 3.0f,
+                        salt = 0.07f,
+                        calcium = 15,
+                        magnesium = 27,
+                        potassium = 256,
+                        iron = 0.7f,
+                        fiber = 0f,
+                        omega3 = 0.05f,
+                        vitaminD = 0,
+                        vitaminC = 0
                     ),
                     Product(
                         name = "Рис отварной",
@@ -155,7 +272,16 @@ abstract class AppDatabase : RoomDatabase() {
                         isNutsFree = true,
                         isEggsFree = true,
                         isFishFree = true,
-                        rating = 3.0f
+                        rating = 3.0f,
+                        salt = 0f,
+                        calcium = 10,
+                        magnesium = 12,
+                        potassium = 35,
+                        iron = 0.2f,
+                        fiber = 0.4f,
+                        omega3 = 0f,
+                        vitaminD = 0,
+                        vitaminC = 0
                     ),
                     Product(
                         name = "Творог 5%",
@@ -171,7 +297,16 @@ abstract class AppDatabase : RoomDatabase() {
                         isNutsFree = true,
                         isEggsFree = true,
                         isFishFree = true,
-                        rating = 3.0f
+                        rating = 3.0f,
+                        salt = 0.1f,
+                        calcium = 164,
+                        magnesium = 23,
+                        potassium = 112,
+                        iron = 0.4f,
+                        fiber = 0f,
+                        omega3 = 0.02f,
+                        vitaminD = 0,
+                        vitaminC = 0
                     ),
                     Product(
                         name = "Банан",
@@ -189,7 +324,16 @@ abstract class AppDatabase : RoomDatabase() {
                         isNutsFree = true,
                         isEggsFree = true,
                         isFishFree = true,
-                        rating = 3.0f
+                        rating = 3.0f,
+                        salt = 0f,
+                        calcium = 5,
+                        magnesium = 27,
+                        potassium = 358,
+                        iron = 0.26f,
+                        fiber = 2.6f,
+                        omega3 = 0.03f,
+                        vitaminD = 0,
+                        vitaminC = 9
                     )
                 )
                 testProducts.forEach { dao.insert(it) }

@@ -1,5 +1,6 @@
 package com.example.myapplication.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,15 @@ class ProductCardAdapter(
         val tagsTextView: TextView = view.findViewById(R.id.productCardTags)
         val allergensTextView: TextView = view.findViewById(R.id.productCardAllergens)
         val detailsButton: Button = view.findViewById(R.id.cardDetailsButton)
+        val saltTextView: TextView = view.findViewById(R.id.productCardSalt)
+        val calciumTextView: TextView = view.findViewById(R.id.productCardCalcium)
+        val magnesiumTextView: TextView = view.findViewById(R.id.productCardMagnesium)
+        val potassiumTextView: TextView = view.findViewById(R.id.productCardPotassium)
+        val ironTextView: TextView = view.findViewById(R.id.productCardIron)
+        val fiberTextView: TextView = view.findViewById(R.id.productCardFiber)
+        val omega3TextView: TextView = view.findViewById(R.id.productCardOmega3)
+        val vitaminDTextView: TextView = view.findViewById(R.id.productCardVitaminD)
+        val vitaminCTextView: TextView = view.findViewById(R.id.productCardVitaminC)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,6 +50,24 @@ class ProductCardAdapter(
         holder.carbsTextView.text = "Углеводы: ${product.carbs}г"
         holder.tagsTextView.text = getTagsString(product)
         holder.allergensTextView.text = getAllergensString(product)
+        holder.saltTextView.text = "%.2f".format(product.salt)
+        holder.calciumTextView.text = product.calcium.toString()
+        holder.magnesiumTextView.text = product.magnesium.toString()
+        holder.potassiumTextView.text = product.potassium.toString()
+        holder.ironTextView.text = "%.2f".format(product.iron)
+        holder.fiberTextView.text = "%.2f".format(product.fiber)
+        holder.omega3TextView.text = "%.2f".format(product.omega3)
+        holder.vitaminDTextView.text = product.vitaminD.toString()
+        holder.vitaminCTextView.text = product.vitaminC.toString()
+        holder.saltTextView.setTextColor(Color.parseColor("#F39C12"))
+        holder.calciumTextView.setTextColor(Color.parseColor("#3498DB"))
+        holder.magnesiumTextView.setTextColor(Color.parseColor("#2ECC71"))
+        holder.potassiumTextView.setTextColor(Color.parseColor("#1ABC9C"))
+        holder.ironTextView.setTextColor(Color.parseColor("#E67E22"))
+        holder.fiberTextView.setTextColor(Color.parseColor("#8E44AD"))
+        holder.omega3TextView.setTextColor(Color.parseColor("#16A085"))
+        holder.vitaminDTextView.setTextColor(Color.parseColor("#2980B9"))
+        holder.vitaminCTextView.setTextColor(Color.parseColor("#27AE60"))
         holder.detailsButton.setOnClickListener { onDetailsClick(product) }
     }
 

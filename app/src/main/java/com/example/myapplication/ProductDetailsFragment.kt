@@ -47,6 +47,17 @@ class ProductDetailsFragment : Fragment() {
             view.findViewById<TextView>(R.id.productCardCarbs)?.text = "Углеводы: ${p.carbs}г"
             view.findViewById<TextView>(R.id.productCardTags)?.text = getTagsString(p)
             view.findViewById<TextView>(R.id.productCardAllergens)?.text = getAllergensString(p)
+            
+            // Add missing nutritional information
+            view.findViewById<TextView>(R.id.productCardSalt)?.text = "%.2f".format(p.salt)
+            view.findViewById<TextView>(R.id.productCardCalcium)?.text = p.calcium.toString()
+            view.findViewById<TextView>(R.id.productCardMagnesium)?.text = p.magnesium.toString()
+            view.findViewById<TextView>(R.id.productCardPotassium)?.text = p.potassium.toString()
+            view.findViewById<TextView>(R.id.productCardIron)?.text = "%.2f".format(p.iron)
+            view.findViewById<TextView>(R.id.productCardFiber)?.text = "%.2f".format(p.fiber)
+            view.findViewById<TextView>(R.id.productCardOmega3)?.text = "%.2f".format(p.omega3)
+            view.findViewById<TextView>(R.id.productCardVitaminD)?.text = p.vitaminD.toString()
+            view.findViewById<TextView>(R.id.productCardVitaminC)?.text = p.vitaminC.toString()
         }
     }
 

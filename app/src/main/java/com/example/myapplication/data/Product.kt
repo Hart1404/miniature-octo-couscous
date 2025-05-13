@@ -89,5 +89,32 @@ data class Product(
     val isVegetablesTag: Boolean = false,
 
     @ColumnInfo(name = "rating")
-    val rating: Float = 3.0f
+    val rating: Float = 3.0f,
+
+    @ColumnInfo(name = "salt")
+    val salt: Float = 0f,
+
+    @ColumnInfo(name = "calcium")
+    val calcium: Int = 0,
+
+    @ColumnInfo(name = "magnesium")
+    val magnesium: Int = 0,
+
+    @ColumnInfo(name = "potassium")
+    val potassium: Int = 0,
+
+    @ColumnInfo(name = "iron")
+    val iron: Float = 0f,
+
+    @ColumnInfo(name = "fiber")
+    val fiber: Float = 0f,
+
+    @ColumnInfo(name = "omega3")
+    val omega3: Float = 0f,
+
+    @ColumnInfo(name = "vitamin_d")
+    val vitaminD: Int = 0,
+
+    @ColumnInfo(name = "vitamin_c")
+    val vitaminC: Int = 0
 ) : Serializable 

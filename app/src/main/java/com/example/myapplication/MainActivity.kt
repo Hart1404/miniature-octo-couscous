@@ -3,11 +3,14 @@ package com.example.myapplication
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.widget.AppCompatImageButton
+import com.example.myapplication.data.AppDatabase
+import android.widget.ImageButton
 
 class MainActivity : AppCompatActivity() {
     private lateinit var barcodeButton: AppCompatImageButton
@@ -15,7 +18,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("MainActivity", "onCreate called")
         setContentView(R.layout.activity_main)
+
+        // Инициализация базы данных продуктов при первом запуске приложения
+        AppDatabase.getDatabase(applicationContext)
 
         // Меняем цвет status bar на цвет шапки
         window.statusBarColor = resources.getColor(R.color.appBarColor, theme)
@@ -35,6 +42,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, BarcodeScannerActivity::class.java))
         }
 
+        // Находим кнопку настроек и устанавливаем обработчик
+        findViewById<ImageButton>(R.id.settingsButton).setOnClickListener {
+            showSettingsDialog()
+        }
+
         // Установка начального фрагмента
         if (savedInstanceState == null) {
             loadFragment(HomeFragment())
@@ -44,20 +56,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment)
-            .commit()
-        
-        // Скрываем кнопки в зависимости от фрагмента
-        when (fragment) {
-            is ProfileFragment -> {
-                barcodeButton.visibility = View.GONE
-                editProfileButton.visibility = View.VISIBLE
+        Log.d("MainActivity", "loadFragment called with fragment: ${fragment.javaClass.simpleName}")
+        try {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .commit()
+            
+            // Скрываем кнопки в зависимости от фрагмента
+            when (fragment) {
+                is ProfileFragment -> {
+                    barcodeButton.visibility = View.GONE
+                    editProfileButton.visibility = View.VISIBLE
+                }
+                else -> {
+                    barcodeButton.visibility = if (fragment is HomeFragment) View.VISIBLE else View.GONE
+                    editProfileButton.visibility = View.GONE
+                }
             }
-            else -> {
-                barcodeButton.visibility = if (fragment is HomeFragment) View.VISIBLE else View.GONE
-                editProfileButton.visibility = View.GONE
-            }
+            Log.d("MainActivity", "Fragment loaded successfully")
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error loading fragment", e)
         }
     }
 
@@ -114,5 +132,11 @@ class MainActivity : AppCompatActivity() {
         }
         // Устанавливаем HomeFragment как начальный фрагмент
         bottomNavView.selectedItemId = R.id.navigation_home
+    }
+
+    private fun showSettingsDialog() {
+        Log.d("MainActivity", "showSettingsDialog called")
+        val dialog = SettingsDialog(this)
+        dialog.show()
     }
 } 
